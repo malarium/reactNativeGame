@@ -27,12 +27,16 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     backgroundColor: "#f2f2f2",
-    marginTop: 20,
+    marginTop: 15,
+    marginBottom: 15,
     borderRadius: 100,
     borderWidth: 20,
     borderColor: "tomato",
     justifyContent: "center", //Centered horizontally
     alignItems: "center", //Centered vertically
+  },
+  mainNavigation_btn_play: {
+    borderColor: "green",
   },
   text: {
     textAlign: "center",
@@ -51,7 +55,6 @@ export function MainMenu(props) {
     BackHandler.exitApp();
   };
   const initPlay = () => {
-    console.log(`Gramy!`);
     props.setPage(1);
   };
 
@@ -64,7 +67,7 @@ export function MainMenu(props) {
       >
         <View style={styles.mainNavigation}>
           <Pressable
-            style={styles.mainNavigation_btn}
+            style={[styles.mainNavigation_btn, styles.mainNavigation_btn_play]}
             onPress={initPlay}
             left={(win.width - 200) / 2}
           >
