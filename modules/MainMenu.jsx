@@ -7,9 +7,8 @@ import {
   Pressable,
   BackHandler,
   useWindowDimensions,
-  AppLoading,
 } from "react-native";
-import { useFonts } from "@expo-google-fonts/inter";
+// import { useFonts } from "@expo-google-fonts/inter";
 
 const styles = StyleSheet.create({
   container: {
