@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { TouchableWithoutFeedback } from "react-native";
 import {
   View,
   Button,
@@ -53,10 +54,25 @@ export function Game(props) {
   const win = useWindowDimensions();
   const [currentGameElement, setCurrentGameElement] = useState(null);
   const [currentElementIndex, setCurrentElementIndex] = useState(0);
+  const [blanks, setBlanks] = useState([]);
 
   useEffect(() => {
     setCurrentGameElement(GameElementsList[currentElementIndex]);
   });
+
+  useEffect(() => {
+    console.log(blanks);
+  }, [blanks]);
+
+  useEffect(() => {
+    console.log(`currentGameElement changed`);
+    if (currentGameElement !== null) {
+      setBlanks([]);
+      Array.from(currentGameElement.word).forEach((letter) => {
+        setBlanks((blanks) => [...blanks, `_`]);
+      });
+    }
+  }, [currentGameElement]);
 
   useEffect(() => {
     setCurrentGameElement(GameElementsList[currentElementIndex]);
@@ -70,17 +86,11 @@ export function Game(props) {
     }
   }
 
-  function generateBlanks() {
-    if (currentGameElement !== null) {
-      const arrOfLetters = Array.from(currentGameElement.word);
-      return (
-        <View style={styles.blanks}>
-          {arrOfLetters.map((letter) => (
-            <Text style={styles.blanks_single}>_</Text>
-          ))}
-        </View>
-      );
-    }
+  function placeLetter(letter) {
+    const idxOfFirstBlank = blanks.indexOf(`_`);
+    const blanksCopy = blanks;
+    blanksCopy[idxOfFirstBlank] = letter;
+    setBlanks([...blanksCopy]);
   }
 
   function generateScatteredLetters() {
@@ -88,8 +98,14 @@ export function Game(props) {
       const shuffledLetters = shuffleArray(Array.from(currentGameElement.word));
       return (
         <View style={styles.letters}>
-          {shuffledLetters.map((letter) => (
-            <Text style={styles.letters_single}>{letter}</Text>
+          {shuffledLetters.map((letter, i) => (
+            <TouchableWithoutFeedback
+              key={i}
+              onPress={() => speak(letter)}
+              onLongPress={() => placeLetter(letter)}
+            >
+              <Text style={styles.letters_single}>{letter}</Text>
+            </TouchableWithoutFeedback>
           ))}
         </View>
       );
@@ -102,7 +118,6 @@ export function Game(props) {
         <TouchableOpacity
           style={{ flex: 1 }}
           onPress={() => {
-            console.log(currentGameElement.word);
             speak(currentGameElement.word);
           }}
         >
@@ -112,7 +127,13 @@ export function Game(props) {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.blanks}>{generateBlanks()}</View>
+      <View style={styles.blanks}>
+        {blanks.map((char, i) => (
+          <Text key={i} style={styles.blanks_single}>
+            {char}
+          </Text>
+        ))}
+      </View>
       <View style={styles.letters}>
         <Text>{generateScatteredLetters()}</Text>
       </View>
