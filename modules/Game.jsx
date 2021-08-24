@@ -112,6 +112,12 @@ export function Game(props) {
     }
   }
 
+  function speakPartialWord() {
+    const idxOfFirstBlank = blanks.indexOf(`_`);
+    const blanksCopy = blanks;
+    return blanksCopy.slice(0, idxOfFirstBlank).join(``);
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.image}>
@@ -127,13 +133,20 @@ export function Game(props) {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.blanks}>
-        {blanks.map((char, i) => (
-          <Text key={i} style={styles.blanks_single}>
-            {char}
-          </Text>
-        ))}
-      </View>
+      <TouchableWithoutFeedback
+        style={{ flex: 1 }}
+        onPress={() => {
+          speak(speakPartialWord());
+        }}
+      >
+        <View style={styles.blanks}>
+          {blanks.map((char, i) => (
+            <Text key={i} style={styles.blanks_single}>
+              {char}
+            </Text>
+          ))}
+        </View>
+      </TouchableWithoutFeedback>
       <View style={styles.letters}>
         <Text>{generateScatteredLetters()}</Text>
       </View>
