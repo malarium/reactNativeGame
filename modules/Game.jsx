@@ -54,6 +54,7 @@ export function Game(props) {
   const win = useWindowDimensions();
   const [currentGameElement, setCurrentGameElement] = useState(null);
   const [currentElementIndex, setCurrentElementIndex] = useState(0);
+  const [shuffledLetters, setShuffledLetters] = useState([]);
   const [blanks, setBlanks] = useState([]);
 
   useEffect(() => {
@@ -61,16 +62,12 @@ export function Game(props) {
   });
 
   useEffect(() => {
-    console.log(blanks);
-  }, [blanks]);
-
-  useEffect(() => {
-    console.log(`currentGameElement changed`);
     if (currentGameElement !== null) {
       setBlanks([]);
       Array.from(currentGameElement.word).forEach((letter) => {
         setBlanks((blanks) => [...blanks, `_`]);
       });
+      setShuffledLetters(shuffleArray(Array.from(currentGameElement.word)));
     }
   }, [currentGameElement]);
 
@@ -91,25 +88,11 @@ export function Game(props) {
     const blanksCopy = blanks;
     blanksCopy[idxOfFirstBlank] = letter;
     setBlanks([...blanksCopy]);
-  }
 
-  function generateScatteredLetters() {
-    if (currentGameElement !== null) {
-      const shuffledLetters = shuffleArray(Array.from(currentGameElement.word));
-      return (
-        <View style={styles.letters}>
-          {shuffledLetters.map((letter, i) => (
-            <TouchableWithoutFeedback
-              key={i}
-              onPress={() => speak(letter)}
-              onLongPress={() => placeLetter(letter)}
-            >
-              <Text style={styles.letters_single}>{letter}</Text>
-            </TouchableWithoutFeedback>
-          ))}
-        </View>
-      );
-    }
+    const shuffledCopy = shuffledLetters;
+    const idxOfChosenLetter = shuffledCopy.indexOf(letter);
+    shuffledCopy.splice(idxOfChosenLetter, 1);
+    setShuffledLetters([...shuffledCopy]);
   }
 
   function speakPartialWord() {
@@ -148,7 +131,15 @@ export function Game(props) {
         </View>
       </TouchableWithoutFeedback>
       <View style={styles.letters}>
-        <Text>{generateScatteredLetters()}</Text>
+        {shuffledLetters.map((letter, i) => (
+          <TouchableWithoutFeedback
+            key={i}
+            onPress={() => speak(letter)}
+            onLongPress={() => placeLetter(letter)}
+          >
+            <Text style={styles.letters_single}>{letter}</Text>
+          </TouchableWithoutFeedback>
+        ))}
       </View>
       <Button title={`BACK`} onPress={() => props.setPage(0)} />
       <Button title={`ON`} onPress={getNextElement} />
