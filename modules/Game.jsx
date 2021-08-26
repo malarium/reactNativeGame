@@ -4,7 +4,6 @@ import { useState } from "react";
 import { TouchableWithoutFeedback } from "react-native";
 import {
   View,
-  Button,
   StyleSheet,
   Text,
   Image,
@@ -15,6 +14,8 @@ import { GameElementsList } from "../helpers/gameElementsList";
 import { shuffleArray } from "../helpers/shuffleArray";
 import { speak } from "../helpers/speak";
 import { StatusBarHeight } from "../helpers/StatusBarHeight";
+import { Ionicons } from "@expo/vector-icons";
+import { sleep } from "../helpers/sleep";
 
 const styles = StyleSheet.create({
   container: {
@@ -44,9 +45,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: `rebeccapurple`,
   },
+  bottomBar: {
+    flexDirection: `row`,
+    flex: 0.4,
+    alignItems: `center`,
+    justifyContent: `space-around`,
+    backgroundColor: `teal`,
+  },
   letters_single: {
     marginLeft: 15,
     fontSize: 70,
+  },
+  points: {
+    fontSize: 60,
+    color: `darkslategrey`,
+    fontWeight: `700`,
   },
 });
 
@@ -56,12 +69,22 @@ export function Game(props) {
   const [currentElementIndex, setCurrentElementIndex] = useState(0);
   const [shuffledLetters, setShuffledLetters] = useState([]);
   const [blanks, setBlanks] = useState([]);
+  const [points, setPoints] = useState(0);
+  const iconColor = `black`;
 
   useEffect(() => {
     setCurrentGameElement(GameElementsList[currentElementIndex]);
   });
 
   useEffect(() => {
+    loadInitialBlanksAndLettersState();
+  }, [currentGameElement]);
+
+  useEffect(() => {
+    setCurrentGameElement(GameElementsList[currentElementIndex]);
+  }, [currentElementIndex]);
+
+  function loadInitialBlanksAndLettersState() {
     if (currentGameElement !== null) {
       setBlanks([]);
       Array.from(currentGameElement.word).forEach((letter) => {
@@ -69,11 +92,7 @@ export function Game(props) {
       });
       setShuffledLetters(shuffleArray(Array.from(currentGameElement.word)));
     }
-  }, [currentGameElement]);
-
-  useEffect(() => {
-    setCurrentGameElement(GameElementsList[currentElementIndex]);
-  }, [currentElementIndex]);
+  }
 
   function getNextElement() {
     if (currentElementIndex < GameElementsList.length - 1) {
@@ -83,15 +102,21 @@ export function Game(props) {
     }
   }
 
-  function placeLetter(letter) {
-    const idxOfFirstBlank = blanks.indexOf(`_`);
+  function placeOrRemoveLetter(letter, remove) {
     const blanksCopy = blanks;
-    blanksCopy[idxOfFirstBlank] = letter;
-    setBlanks([...blanksCopy]);
-
     const shuffledCopy = shuffledLetters;
-    const idxOfChosenLetter = shuffledCopy.indexOf(letter);
-    shuffledCopy.splice(idxOfChosenLetter, 1);
+    const idxOfChangedChar = remove
+      ? blanks.indexOf(letter)
+      : blanks.indexOf(`_`);
+    if (remove) {
+      blanksCopy[idxOfChangedChar] = `_`;
+      shuffledCopy.push(letter);
+    } else {
+      blanksCopy[idxOfChangedChar] = letter;
+      const idxOfChosenLetter = shuffledCopy.indexOf(letter);
+      shuffledCopy.splice(idxOfChosenLetter, 1);
+    }
+    setBlanks([...blanksCopy]);
     setShuffledLetters([...shuffledCopy]);
   }
 
@@ -99,6 +124,21 @@ export function Game(props) {
     const idxOfFirstBlank = blanks.indexOf(`_`);
     const blanksCopy = blanks;
     return blanksCopy.slice(0, idxOfFirstBlank).join(``);
+  }
+
+  async function checkIfWordIsCorrect() {
+    if (blanks.includes(`_`)) {
+      speak(speakPartialWord());
+      return;
+    }
+    if (blanks.join(``) === currentGameElement.word) {
+      speak(`Yes, you got that right!`);
+      await sleep(1750);
+      setPoints(points + 1);
+      getNextElement();
+      return;
+    }
+    speak(`try again`);
   }
 
   return (
@@ -119,14 +159,17 @@ export function Game(props) {
       <TouchableWithoutFeedback
         style={{ flex: 1 }}
         onPress={() => {
-          speak(speakPartialWord());
+          checkIfWordIsCorrect();
         }}
       >
         <View style={styles.blanks}>
           {blanks.map((char, i) => (
-            <Text key={i} style={styles.blanks_single}>
-              {char}
-            </Text>
+            <TouchableWithoutFeedback
+              key={i}
+              onLongPress={() => placeOrRemoveLetter(char, true)}
+            >
+              <Text style={styles.blanks_single}>{char}</Text>
+            </TouchableWithoutFeedback>
           ))}
         </View>
       </TouchableWithoutFeedback>
@@ -135,14 +178,30 @@ export function Game(props) {
           <TouchableWithoutFeedback
             key={i}
             onPress={() => speak(letter)}
-            onLongPress={() => placeLetter(letter)}
+            onLongPress={() => placeOrRemoveLetter(letter, false)}
           >
             <Text style={styles.letters_single}>{letter}</Text>
           </TouchableWithoutFeedback>
         ))}
       </View>
-      <Button title={`BACK`} onPress={() => props.setPage(0)} />
-      <Button title={`ON`} onPress={getNextElement} />
+      <View style={styles.bottomBar}>
+        <Ionicons
+          style={{ transform: [{ rotateX: "180deg" }, { rotateZ: "180deg" }] }}
+          name="md-exit-sharp"
+          size={42}
+          color={iconColor}
+          onPress={() => props.setPage(0)}
+        />
+        <Text style={styles.points}>{points}</Text>
+        <Ionicons
+          name="md-repeat"
+          size={42}
+          color={iconColor}
+          onPress={() => loadInitialBlanksAndLettersState()}
+        />
+      </View>
+      {/* <Button title={`BACK`} onPress={() => props.setPage(0)} />
+      <Button title={`ON`} onPress={getNextElement} /> */}
     </View>
   );
 }
