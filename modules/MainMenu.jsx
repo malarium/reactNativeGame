@@ -1,4 +1,7 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { TouchableOpacity } from "react-native";
 import {
   ImageBackground,
   StyleSheet,
@@ -7,7 +10,9 @@ import {
   Pressable,
   BackHandler,
   useWindowDimensions,
+  ActivityIndicator,
 } from "react-native";
+import { getAvailableLanguages } from "../helpers/speak";
 // import { useFonts } from "@expo-google-fonts/inter";
 
 const styles = StyleSheet.create({
@@ -45,10 +50,55 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "monospace",
   },
+  languages: {
+    flexDirection: `row`,
+    flexWrap: `wrap`,
+    justifyContent: `center`,
+    alignItems: `center`,
+    justifyContent: `space-around`,
+  },
 });
 
 export function MainMenu(props) {
   const win = useWindowDimensions();
+  const [languages, setLanguages] = useState([]);
+  const [allDependenciesLoaded, setAllDependenciesLoaded] = useState(false);
+  let safetyCounter = 0;
+
+  useEffect(() => {
+    fetchLanguages();
+  }, []);
+
+  async function fetchLanguages() {
+    const langs = await getAvailableLanguages();
+    if (langs.length < 1) {
+      if (safetyCounter < 5) {
+        safetyCounter += 1;
+        setTimeout(() => {
+          fetchLanguages();
+        }, 250);
+      } else {
+        // No languages available
+        setAllDependenciesLoaded(true);
+      }
+    } else {
+      setLanguages(langs);
+      setAllDependenciesLoaded(true);
+    }
+  }
+
+  // function getCountryCode(name) {
+  //   switch (name) {
+  //     case `en-US`:
+  //       return `US`;
+
+  //     case `en-GB`:
+  //       return `GB`;
+
+  //     case `pl-PL`:
+  //       return `PL`;
+  //   }
+  // }
 
   const initExit = () => {
     BackHandler.exitApp();
@@ -57,7 +107,7 @@ export function MainMenu(props) {
     props.setPage(1);
   };
 
-  return (
+  return allDependenciesLoaded ? (
     <View style={styles.container}>
       <ImageBackground
         source={require(`../assets/background_letters.jpg`)}
@@ -80,7 +130,18 @@ export function MainMenu(props) {
             <Text style={styles.text}>WYJDŹ</Text>
           </Pressable>
         </View>
+        <View style={styles.languages}>
+          {languages.map((languageObject, i) => (
+            <TouchableOpacity key={i}>
+              <Text>{languageObject.language}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </ImageBackground>
+    </View>
+  ) : (
+    <View style={styles.image}>
+      <ActivityIndicator color="teal" size="large" />
     </View>
   );
 }
