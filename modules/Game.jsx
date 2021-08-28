@@ -36,11 +36,12 @@ const styles = StyleSheet.create({
   },
   blanks_single: {
     marginLeft: 15,
-    fontSize: 70,
+    fontSize: 50,
   },
   letters: {
     flexDirection: `row`,
     flex: 1,
+    flexWrap: `wrap`,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: `rebeccapurple`,
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: `row`,
     flex: 0.4,
     alignItems: `center`,
+    justifyContent: `center`,
     justifyContent: `space-around`,
     backgroundColor: `teal`,
   },
@@ -103,6 +105,9 @@ export function Game(props) {
   }
 
   function placeOrRemoveLetter(letter, remove) {
+    if (letter === `_`) {
+      return;
+    }
     const blanksCopy = blanks;
     const shuffledCopy = shuffledLetters;
     const idxOfChangedChar = remove
@@ -166,7 +171,7 @@ export function Game(props) {
           {blanks.map((char, i) => (
             <TouchableWithoutFeedback
               key={i}
-              onLongPress={() => placeOrRemoveLetter(char, true)}
+              onPress={() => placeOrRemoveLetter(char, true)}
             >
               <Text style={styles.blanks_single}>{char}</Text>
             </TouchableWithoutFeedback>
@@ -177,8 +182,8 @@ export function Game(props) {
         {shuffledLetters.map((letter, i) => (
           <TouchableWithoutFeedback
             key={i}
-            onPress={() => speak(letter)}
-            onLongPress={() => placeOrRemoveLetter(letter, false)}
+            onLongPress={() => speak(letter)}
+            onPress={() => placeOrRemoveLetter(letter, false)}
           >
             <Text style={styles.letters_single}>{letter}</Text>
           </TouchableWithoutFeedback>
