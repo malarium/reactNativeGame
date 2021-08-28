@@ -1,0 +1,72 @@
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { TouchableOpacity, View, Image, StyleSheet, Text } from "react-native";
+import { LanguageElementsList } from "../helpers/languageElements";
+
+const styles = StyleSheet.create({
+  languages: {
+    flexDirection: `row`,
+    flexWrap: `wrap`,
+    justifyContent: `center`,
+    alignItems: `center`,
+    justifyContent: `space-around`,
+    backgroundColor: `teal`,
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginTop: 50,
+  },
+  image: {
+    flex: 1,
+    resizeMode: "contain",
+    backgroundColor: "#E0BBE4",
+  },
+});
+
+export function LanguagesChoice(props) {
+  const [currentLanguage, setCurrentLanguage] = useState(``);
+  const [availableLanguages, setAvailableLanguages] = useState([]);
+
+  useEffect(() => {
+    setCurrentLanguage(props.languages[0].language);
+    setAvailableFlags();
+  }, []);
+
+  useEffect(() => {
+    props.chooseLanguage(currentLanguage);
+  }, [currentLanguage]);
+
+  function setAvailableFlags() {
+    setAvailableLanguages([]);
+    const tempLangsArray = [];
+    props.languages.map((language) => {
+      const langFromList = LanguageElementsList.find(
+        (l) => l.code === language.language
+      );
+      if (langFromList !== undefined) {
+        if (!tempLangsArray.some((el) => el.code === langFromList.code)) {
+          tempLangsArray.push(langFromList);
+        }
+      }
+    });
+    setAvailableLanguages(tempLangsArray);
+  }
+
+  return (
+    <View style={styles.languages}>
+      {availableLanguages.map((languageObject, i) => (
+        <TouchableOpacity
+          key={i}
+          onPress={() => {
+            props.chooseLanguage(languageObject.code);
+          }}
+        >
+          <Image
+            style={[{ width: 50, height: 50 }]}
+            source={languageObject.uri}
+          />
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+}

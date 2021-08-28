@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { TouchableOpacity } from "react-native";
 import {
   ImageBackground,
   StyleSheet,
@@ -13,6 +12,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { getAvailableLanguages } from "../helpers/speak";
+import { LanguagesChoice } from "./LanguagesChoice";
 // import { useFonts } from "@expo-google-fonts/inter";
 
 const styles = StyleSheet.create({
@@ -50,24 +50,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "monospace",
   },
-  languages: {
-    flexDirection: `row`,
-    flexWrap: `wrap`,
-    justifyContent: `center`,
-    alignItems: `center`,
-    justifyContent: `space-around`,
-  },
 });
 
 export function MainMenu(props) {
   const win = useWindowDimensions();
   const [languages, setLanguages] = useState([]);
   const [allDependenciesLoaded, setAllDependenciesLoaded] = useState(false);
+  const [chosenLanguage, setChosenLanguage] = useState(null);
   let safetyCounter = 0;
 
   useEffect(() => {
     fetchLanguages();
   }, []);
+
+  function chooseLanguage(lang) {
+    setChosenLanguage(lang);
+    console.log(`chosen language: `, lang);
+  }
 
   async function fetchLanguages() {
     const langs = await getAvailableLanguages();
@@ -130,13 +129,10 @@ export function MainMenu(props) {
             <Text style={styles.text}>WYJDŹ</Text>
           </Pressable>
         </View>
-        <View style={styles.languages}>
-          {languages.map((languageObject, i) => (
-            <TouchableOpacity key={i}>
-              <Text>{languageObject.language}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <LanguagesChoice
+          languages={languages}
+          chooseLanguage={chooseLanguage}
+        />
       </ImageBackground>
     </View>
   ) : (
