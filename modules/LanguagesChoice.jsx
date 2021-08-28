@@ -39,14 +39,16 @@ export function LanguagesChoice(props) {
   function setAvailableFlags() {
     setAvailableLanguages([]);
     const tempLangsArray = [];
-    props.languages.map((language) => {
-      const langFromList = LanguageElementsList.find(
-        (l) => l.code === language.language
+    LanguageElementsList.map((language) => {
+      const fromAllAvailable = props.languages.find(
+        (l) => l.language === language.code
       );
-      if (langFromList !== undefined) {
-        if (!tempLangsArray.some((el) => el.code === langFromList.code)) {
-          tempLangsArray.push(langFromList);
-        }
+      if (fromAllAvailable) {
+        tempLangsArray.push(
+          LanguageElementsList.find(
+            (el) => el.code === fromAllAvailable.language
+          )
+        );
       }
     });
     setAvailableLanguages(tempLangsArray);
