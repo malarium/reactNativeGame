@@ -86,19 +86,6 @@ export function MainMenu(props) {
     }
   }
 
-  // function getCountryCode(name) {
-  //   switch (name) {
-  //     case `en-US`:
-  //       return `US`;
-
-  //     case `en-GB`:
-  //       return `GB`;
-
-  //     case `pl-PL`:
-  //       return `PL`;
-  //   }
-  // }
-
   const initExit = () => {
     BackHandler.exitApp();
   };
