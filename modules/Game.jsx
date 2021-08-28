@@ -41,9 +41,8 @@ const styles = StyleSheet.create({
   letters: {
     flexDirection: `row`,
     flex: 1,
-    flexWrap: `wrap`,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: `center`,
     backgroundColor: `rebeccapurple`,
   },
   bottomBar: {
@@ -55,8 +54,8 @@ const styles = StyleSheet.create({
     backgroundColor: `teal`,
   },
   letters_single: {
-    marginLeft: 15,
-    fontSize: 70,
+    marginLeft: 18,
+    fontSize: 50,
   },
   points: {
     fontSize: 60,
