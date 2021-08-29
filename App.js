@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  BackHandler,
-  useWindowDimensions,
-} from "react-native";
+import { Text } from "react-native";
 import { MainMenu } from "./modules/MainMenu";
 import { Game } from "./modules/Game";
 
