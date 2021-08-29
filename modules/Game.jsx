@@ -10,12 +10,13 @@ import {
   useWindowDimensions,
   TouchableOpacity,
 } from "react-native";
-import { GameElementsList } from "../helpers/gameElementsList";
+import { returnGameElementsShuffled } from "../helpers/gameElementsList";
 import { shuffleArray } from "../helpers/shuffleArray";
 import { speak } from "../helpers/speak";
 import { StatusBarHeight } from "../helpers/StatusBarHeight";
 import { Ionicons } from "@expo/vector-icons";
 import { sleep } from "../helpers/sleep";
+import { Translations } from "../helpers/languageElements";
 
 const styles = StyleSheet.create({
   container: {
@@ -71,32 +72,37 @@ export function Game(props) {
   const [shuffledLetters, setShuffledLetters] = useState([]);
   const [blanks, setBlanks] = useState([]);
   const [points, setPoints] = useState(0);
+  const [currentLanguageKey, setCurrentLanguageKey] = useState(``);
   const iconColor = `black`;
-
   useEffect(() => {
-    setCurrentGameElement(GameElementsList[currentElementIndex]);
-  });
+    setCurrentGameElement(props.shuffledGameElements[currentElementIndex]);
+    setCurrentLanguageKey(props.currentLanguage.split(`-`).join(``));
+  }, []);
 
   useEffect(() => {
     loadInitialBlanksAndLettersState();
   }, [currentGameElement]);
 
   useEffect(() => {
-    setCurrentGameElement(GameElementsList[currentElementIndex]);
+    setCurrentGameElement(props.shuffledGameElements[currentElementIndex]);
   }, [currentElementIndex]);
 
   function loadInitialBlanksAndLettersState() {
     if (currentGameElement !== null) {
       setBlanks([]);
-      Array.from(currentGameElement.word).forEach((letter) => {
-        setBlanks((blanks) => [...blanks, `_`]);
-      });
-      setShuffledLetters(shuffleArray(Array.from(currentGameElement.word)));
+      Array.from(currentGameElement.word[currentLanguageKey]).forEach(
+        (letter) => {
+          setBlanks((blanks) => [...blanks, `_`]);
+        }
+      );
+      setShuffledLetters(
+        shuffleArray(Array.from(currentGameElement.word[currentLanguageKey]))
+      );
     }
   }
 
   function getNextElement() {
-    if (currentElementIndex < GameElementsList.length - 1) {
+    if (currentElementIndex < props.shuffledGameElements.length - 1) {
       setCurrentElementIndex(currentElementIndex + 1);
     } else {
       props.setPage(2);
@@ -132,17 +138,17 @@ export function Game(props) {
 
   async function checkIfWordIsCorrect() {
     if (blanks.includes(`_`)) {
-      speak(speakPartialWord());
+      speak(speakPartialWord(), props.currentLanguage);
       return;
     }
-    if (blanks.join(``) === currentGameElement.word) {
-      speak(`Yes, you got that right!`);
+    if (blanks.join(``) === currentGameElement.word[currentLanguageKey]) {
+      speak(Translations.correct[currentLanguageKey], props.currentLanguage);
       await sleep(1750);
       setPoints(points + 1);
       getNextElement();
       return;
     }
-    speak(`try again`);
+    speak(Translations.incorrect[currentLanguageKey], props.currentLanguage);
   }
 
   return (
@@ -151,7 +157,10 @@ export function Game(props) {
         <TouchableOpacity
           style={{ flex: 1 }}
           onPress={() => {
-            speak(currentGameElement.word);
+            speak(
+              currentGameElement.word[currentLanguageKey],
+              props.currentLanguage
+            );
           }}
         >
           <Image
@@ -181,7 +190,7 @@ export function Game(props) {
         {shuffledLetters.map((letter, i) => (
           <TouchableWithoutFeedback
             key={i}
-            onLongPress={() => speak(letter)}
+            onLongPress={() => speak(letter, props.currentLanguage)}
             onPress={() => placeOrRemoveLetter(letter, false)}
           >
             <Text style={styles.letters_single}>{letter}</Text>
@@ -206,7 +215,7 @@ export function Game(props) {
       </View>
       {/* <Button title={`BACK`} onPress={() => props.setPage(0)} />
       <Button title={`ON`} onPress={getNextElement} /> */}
-      <Text>{`current Lang from Game:  ${props.currentLanguage}`}</Text>
+      {/* <Text>{`current Lang from Game:  ${currentLanguageKey}`}</Text> */}
     </View>
   );
 }

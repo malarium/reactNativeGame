@@ -62,11 +62,10 @@ export function MainMenu(props) {
 
   useEffect(() => {
     fetchLanguages();
-    chooseLanguage(`en-GB`);
+    chooseLanguage(props.currentLanguage);
   }, []);
 
   function chooseLanguage(lang) {
-    console.log(`chosen language from Main Menu!: `, lang);
     if (lang) {
       props.languageUpdate(lang);
       setLanguageKey(lang.split(`-`).join(``));

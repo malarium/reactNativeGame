@@ -1,8 +1,8 @@
 import * as Speech from "expo-speech";
 
-export const speak = (text) => {
+export const speak = (text, lang = `en-GB`) => {
   Speech.speak(text, {
-    language: "en-GB",
+    language: lang,
   });
 };
 
