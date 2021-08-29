@@ -11,6 +11,7 @@ import {
   useWindowDimensions,
   ActivityIndicator,
 } from "react-native";
+import { Translations } from "../helpers/languageElements";
 import { getAvailableLanguages } from "../helpers/speak";
 import { LanguagesChoice } from "./LanguagesChoice";
 // import { useFonts } from "@expo-google-fonts/inter";
@@ -56,16 +57,23 @@ export function MainMenu(props) {
   const win = useWindowDimensions();
   const [languages, setLanguages] = useState([]);
   const [allDependenciesLoaded, setAllDependenciesLoaded] = useState(false);
-  const [chosenLanguage, setChosenLanguage] = useState(null);
+  const [languageKey, setLanguageKey] = useState();
   let safetyCounter = 0;
 
   useEffect(() => {
     fetchLanguages();
+    chooseLanguage(`en-GB`);
   }, []);
 
   function chooseLanguage(lang) {
-    setChosenLanguage(lang);
-    console.log(`chosen language: `, lang);
+    console.log(`chosen language from Main Menu!: `, lang);
+    if (lang) {
+      props.languageUpdate(lang);
+      setLanguageKey(lang.split(`-`).join(``));
+    } else {
+      props.languageUpdate(`en-GB`);
+      setLanguageKey(`enGB`);
+    }
   }
 
   async function fetchLanguages() {
@@ -106,14 +114,14 @@ export function MainMenu(props) {
             onPress={initPlay}
             left={(win.width - 200) / 2}
           >
-            <Text style={styles.text}>GRAJ</Text>
+            <Text style={styles.text}>{Translations.play[languageKey]}</Text>
           </Pressable>
           <Pressable
             style={styles.mainNavigation_btn}
             onPress={initExit}
             left={(win.width - 200) / 2}
           >
-            <Text style={styles.text}>WYJDŹ</Text>
+            <Text style={styles.text}>{Translations.exit[languageKey]}</Text>
           </Pressable>
         </View>
         <LanguagesChoice

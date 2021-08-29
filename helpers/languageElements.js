@@ -5,3 +5,22 @@ export const LanguageElementsList = [
   { uri: require("../assets/flags/poland.png"), code: `pl-PL` },
   { uri: require("../assets/flags/italy.png"), code: `it-IT` },
 ];
+
+export const Translations = {
+  play: {
+    enGB: `play`,
+    enUS: `play`,
+    plPL: `graj`,
+    esES: `juego`,
+    itIT: `giocare`,
+    deDE: `abspielen`,
+  },
+  exit: {
+    enGB: `exit`,
+    enUS: `exit`,
+    plPL: `wyjdź`,
+    esES: `salga`,
+    itIT: `finire`,
+    deDE: `beenden`,
+  },
+};
