@@ -24,17 +24,11 @@ const styles = StyleSheet.create({
 });
 
 export function LanguagesChoice(props) {
-  const [currentLanguage, setCurrentLanguage] = useState(``);
   const [availableLanguages, setAvailableLanguages] = useState([]);
 
   useEffect(() => {
-    setCurrentLanguage(props.languages[0].language);
     setAvailableFlags();
   }, []);
-
-  useEffect(() => {
-    props.chooseLanguage(currentLanguage);
-  }, [currentLanguage]);
 
   function setAvailableFlags() {
     setAvailableLanguages([]);

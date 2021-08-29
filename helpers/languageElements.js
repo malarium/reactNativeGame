@@ -23,4 +23,28 @@ export const Translations = {
     itIT: `finire`,
     deDE: `beenden`,
   },
+  earth: {
+    enGB: `exit`,
+    enUS: `exit`,
+    plPL: `ziemia`,
+    esES: `tierra`,
+    itIT: `terra`,
+    deDE: `erde`,
+  },
+  fish: {
+    enGB: `fish`,
+    enUS: `fish`,
+    plPL: `ryba`,
+    esES: `pez`,
+    itIT: `pesce`,
+    deDE: `fisch`,
+  },
+  pumpkin: {
+    enGB: `pumpkin`,
+    enUS: `pumpkin`,
+    plPL: `dynia`,
+    esES: `calabaza`,
+    itIT: `zucca`,
+    deDE: `kürbis`,
+  },
 };
