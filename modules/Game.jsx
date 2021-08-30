@@ -10,7 +10,6 @@ import {
   useWindowDimensions,
   TouchableOpacity,
 } from "react-native";
-import { returnGameElementsShuffled } from "../helpers/gameElementsList";
 import { shuffleArray } from "../helpers/shuffleArray";
 import { speak } from "../helpers/speak";
 import { StatusBarHeight } from "../helpers/StatusBarHeight";

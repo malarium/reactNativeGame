@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Text } from "react-native";
 import { MainMenu } from "./modules/MainMenu";
 import { Game } from "./modules/Game";
-import { returnGameElementsShuffled } from "./helpers/gameElementsList";
+import { returnRandomGameElementsShuffled } from "./helpers/gameElementsList";
+import { VictoryScreen } from "./modules/VictoryScreen";
 
 const App = () => {
   const [page, setPage] = React.useState(0);
   const [currentLanguage, setCurrentLanguage] = useState(``);
-  const shuffledGameElements = returnGameElementsShuffled();
+  const shuffledGameElements = returnRandomGameElementsShuffled();
 
   /* setters from useState hook don't work when passed directly in props.
   State must be updated from within the same component it was created in. */
@@ -31,6 +32,8 @@ const App = () => {
       currentLanguage={currentLanguage}
       shuffledGameElements={shuffledGameElements}
     />
+  ) : page === 2 ? (
+    <VictoryScreen setPage={pageUpdate} currentLanguage={currentLanguage} />
   ) : (
     <Text>CREDITS</Text>
   );
