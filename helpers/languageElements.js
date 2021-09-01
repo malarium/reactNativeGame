@@ -39,4 +39,28 @@ export const Translations = {
     itIT: `Mi dispiace, non è questo. Riprova.`,
     deDE: `Entschuldigung, das ist es nicht. Versuchen Sie es nochmal.`,
   },
+  poorOutocome: {
+    enGB: `Don't worry! Next time it will get better. Try again.`,
+    enUS: `Dont't worry! Next time it will get better. Try again.`,
+    plPL: `Nie martw się! Musisz jeszcze troszkę poświczyć.`,
+    esES: `Lo siento, no es eso. Intentar otra vez.`,
+    itIT: `Mi dispiace, non è questo. Riprova.`,
+    deDE: `Entschuldigung, das ist es nicht. Versuchen Sie es nochmal.`,
+  },
+  medicoreOutocome: {
+    enGB: `Not bad! But I'm sure you can do better.`,
+    enUS: `Not bad! But I'm sure you can do better.`,
+    plPL: `Nieźle, ale na pewno stać cię na więcej!`,
+    esES: `Lo siento, no es eso. Intentar otra vez.`,
+    itIT: `Mi dispiace, non è questo. Riprova.`,
+    deDE: `Entschuldigung, das ist es nicht. Versuchen Sie es nochmal.`,
+  },
+  goodOutocome: {
+    enGB: `Great! You are a tyue spelling master!`,
+    enUS: `Great! You are a tyue spelling master!`,
+    plPL: `Znakomicie! Jesteś prawdziwym mistrzem literek!`,
+    esES: `Lo siento, no es eso. Intentar otra vez.`,
+    itIT: `Mi dispiace, non è questo. Riprova.`,
+    deDE: `Entschuldigung, das ist es nicht. Versuchen Sie es nochmal.`,
+  },
 };

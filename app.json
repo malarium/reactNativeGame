@@ -1,8 +1,10 @@
 {
   "expo": {
-    "name": "testProject2",
-    "slug": "testProject2",
-    "version": "1.0.0",
+    "name": "Spelling Game",
+    "slug": "spelling-game",
+    "description": "A simple spelling game for kids. Supports English, German, Spanish, Italian and Polish.",
+    "version": "0.0.1",
+    "privacy": "public",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -13,13 +15,13 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.poppyseed.spellinggame",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

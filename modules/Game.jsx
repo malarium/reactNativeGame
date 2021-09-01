@@ -83,6 +83,10 @@ export function Game(props) {
   }, [currentGameElement]);
 
   useEffect(() => {
+    props.setPoints(points);
+  }, [points]);
+
+  useEffect(() => {
     setCurrentGameElement(props.shuffledGameElements[currentElementIndex]);
   }, [currentElementIndex]);
 
@@ -141,9 +145,9 @@ export function Game(props) {
       return;
     }
     if (blanks.join(``) === currentGameElement.word[currentLanguageKey]) {
+      setPoints(points + 1);
       speak(Translations.correct[currentLanguageKey], props.currentLanguage);
       await sleep(1750);
-      setPoints(points + 1);
       getNextElement();
       return;
     }
@@ -205,6 +209,12 @@ export function Game(props) {
           onPress={() => props.setPage(0)}
         />
         <Text style={styles.points}>{points}</Text>
+        <Ionicons
+          name="md-close-circle-outline"
+          size={42}
+          color={iconColor}
+          onPress={() => getNextElement()}
+        />
         <Ionicons
           name="md-repeat"
           size={42}
