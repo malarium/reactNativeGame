@@ -9,3 +9,7 @@ export const speak = (text, lang = `en-GB`) => {
 export const getAvailableLanguages = () => {
   return Speech.getAvailableVoicesAsync().then((v) => v);
 };
+
+export const stopSpeech = () => {
+  Speech.stop();
+};

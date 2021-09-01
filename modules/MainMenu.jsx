@@ -12,7 +12,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { Translations } from "../helpers/languageElements";
-import { getAvailableLanguages } from "../helpers/speak";
+import { getAvailableLanguages, stopSpeech } from "../helpers/speak";
 import { LanguagesChoice } from "./LanguagesChoice";
 // import { useFonts } from "@expo-google-fonts/inter";
 
@@ -94,6 +94,7 @@ export function MainMenu(props) {
   }
 
   const initExit = () => {
+    stopSpeech();
     BackHandler.exitApp();
   };
   const initPlay = () => {

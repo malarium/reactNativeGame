@@ -111,6 +111,39 @@ export const GameElementsList = [
       deDE: `süßigkeiten`,
     },
   },
+  {
+    uri: require("../assets/gameImgs/bunny.png"),
+    word: {
+      enGB: `bunny`,
+      enUS: `bunny`,
+      plPL: `króliczek`,
+      esES: `conejito`,
+      itIT: `coniglio`,
+      deDE: `hase`,
+    },
+  },
+  {
+    uri: require("../assets/gameImgs/school.png"),
+    word: {
+      enGB: `school`,
+      enUS: `school`,
+      plPL: `szkoła`,
+      esES: `escuela`,
+      itIT: `scuola`,
+      deDE: `schule`,
+    },
+  },
+  {
+    uri: require("../assets/gameImgs/schoolbag.png"),
+    word: {
+      enGB: `schoolbag`,
+      enUS: `schoolbag`,
+      plPL: `tornister`,
+      esES: `cartera`,
+      itIT: `cartella`,
+      deDE: `schulranzen`,
+    },
+  },
 ];
 
 export function returnRandomGameElementsShuffled() {

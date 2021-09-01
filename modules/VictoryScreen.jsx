@@ -2,7 +2,7 @@ import React from "react";
 import { StatusBarHeight } from "../helpers/StatusBarHeight";
 import { View, Text, StyleSheet, BackHandler } from "react-native";
 import { Translations } from "../helpers/languageElements";
-import { speak } from "../helpers/speak";
+import { speak, stopSpeech } from "../helpers/speak";
 import { Ionicons } from "@expo/vector-icons";
 
 const styles = StyleSheet.create({
@@ -51,8 +51,20 @@ export function VictoryScreen(props) {
   }
 
   const initExit = () => {
+    stopSpeech();
     BackHandler.exitApp();
   };
+
+  function getPointsTranslation() {
+    if (currentLanguageKey !== `plPL`) {
+      return Translations.points[currentLanguageKey];
+    }
+    return props.points === 0 || props.points > 4
+      ? Translations.points[currentLanguageKey][2]
+      : props.points === 1
+      ? Translations.points[currentLanguageKey][0]
+      : Translations.points[currentLanguageKey][1];
+  }
 
   return (
     <View style={styles.container}>
@@ -60,7 +72,7 @@ export function VictoryScreen(props) {
         {Translations.youScored[currentLanguageKey]}
       </Text>
       <Text style={styles.score}>{props.points}</Text>
-      <Text style={styles.text}>{Translations.points[currentLanguageKey]}</Text>
+      <Text style={styles.text}>{getPointsTranslation()}</Text>
       <View style={styles.buttons}>
         <Ionicons
           style={{ transform: [{ rotateX: "180deg" }, { rotateZ: "180deg" }] }}
