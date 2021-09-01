@@ -9,11 +9,18 @@ const App = () => {
   const [page, setPage] = React.useState(0);
   const [currentLanguage, setCurrentLanguage] = useState(``);
   const [points, setPoints] = useState(0);
-  const shuffledGameElements = returnRandomGameElementsShuffled();
+  const [shuffledGameElements, setShuffledGameElements] = useState();
+
+  useState(() => {
+    setShuffledGameElements(returnRandomGameElementsShuffled());
+  }, []);
 
   /* setters from useState hook don't work when passed directly in props.
   State must be updated from within the same component it was created in. */
   function pageUpdate(nr) {
+    if (nr === 0) {
+      setShuffledGameElements(returnRandomGameElementsShuffled());
+    }
     setPage(nr);
   }
   function pointsUpdate(nr) {

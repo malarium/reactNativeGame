@@ -56,9 +56,11 @@ export function VictoryScreen(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{`You scored:`}</Text>
+      <Text style={styles.text}>
+        {Translations.youScored[currentLanguageKey]}
+      </Text>
       <Text style={styles.score}>{props.points}</Text>
-      <Text style={styles.text}>{`points`}</Text>
+      <Text style={styles.text}>{Translations.points[currentLanguageKey]}</Text>
       <View style={styles.buttons}>
         <Ionicons
           style={{ transform: [{ rotateX: "180deg" }, { rotateZ: "180deg" }] }}

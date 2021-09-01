@@ -114,5 +114,6 @@ export const GameElementsList = [
 ];
 
 export function returnRandomGameElementsShuffled() {
-  return shuffleArray(GameElementsList).slice(0, 5);
+  const shuffledAndRandom = shuffleArray(GameElementsList).slice(0, 5);
+  return shuffledAndRandom;
 }

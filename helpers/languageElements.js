@@ -63,4 +63,20 @@ export const Translations = {
     itIT: `Mi dispiace, non è questo. Riprova.`,
     deDE: `Entschuldigung, das ist es nicht. Versuchen Sie es nochmal.`,
   },
+  youScored: {
+    enGB: `You scored`,
+    enUS: `You scored`,
+    plPL: `Zdobyłeś`,
+    esES: `Tienes`,
+    itIT: `Hai`,
+    deDE: `Du hast`,
+  },
+  points: {
+    enGB: `points`,
+    enUS: `points`,
+    plPL: `punktów`,
+    esES: `puntos`,
+    itIT: `punti`,
+    deDE: `Punkte`,
+  },
 };
