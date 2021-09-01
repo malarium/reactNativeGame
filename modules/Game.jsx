@@ -222,9 +222,6 @@ export function Game(props) {
           onPress={() => loadInitialBlanksAndLettersState()}
         />
       </View>
-      {/* <Button title={`BACK`} onPress={() => props.setPage(0)} />
-      <Button title={`ON`} onPress={getNextElement} /> */}
-      {/* <Text>{`current Lang from Game:  ${currentLanguageKey}`}</Text> */}
     </View>
   );
 }
