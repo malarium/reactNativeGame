@@ -3,7 +3,7 @@
     "name": "Spelling Game",
     "slug": "spelling-game",
     "description": "A simple spelling game for kids. Supports English, German, Spanish, Italian and Polish.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "privacy": "public",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
