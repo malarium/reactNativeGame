@@ -1,6 +1,5 @@
 export function shuffleArray(array) {
-  var currentIndex = array.length,
-    randomIndex;
+  const currentIndex = array.length, randomIndex;
   while (currentIndex != 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
