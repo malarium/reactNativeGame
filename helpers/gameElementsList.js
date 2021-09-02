@@ -134,6 +134,17 @@ export const GameElementsList = [
     },
   },
   {
+    uri: require("../assets/gameImgs/octopus.png"),
+    word: {
+      enGB: `octopus`,
+      enUS: `octopus`,
+      plPL: `ośmiornica`,
+      esES: `pulpo`,
+      itIT: `polpo`,
+      deDE: `tintenfisch`,
+    },
+  },
+  {
     uri: require("../assets/gameImgs/schoolbag.png"),
     word: {
       enGB: `schoolbag`,
@@ -142,6 +153,17 @@ export const GameElementsList = [
       esES: `cartera`,
       itIT: `cartella`,
       deDE: `schulranzen`,
+    },
+  },
+  {
+    uri: require("../assets/gameImgs/dino.png"),
+    word: {
+      enGB: `dinosaur`,
+      enUS: `dinosaur`,
+      plPL: `dinozaur`,
+      esES: `dinosaurio`,
+      itIT: `dinosauro`,
+      deDE: `dinosaurier`,
     },
   },
 ];
